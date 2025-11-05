@@ -105,23 +105,8 @@ export const printOrder = (order: Order, numCopies: number = 1) => {
   const encodedHTML = encodeURIComponent(htmlContent);
   const printUrl = `print://escpos.org/escpos/usb/print?srcTp=uri&srcObj=html&numCopies=${numCopies}&src=data:text/html,${encodedHTML}`;
   
-  // Detecta se está em Android
-  const isAndroid = /android/i.test(navigator.userAgent);
-  
-  if (isAndroid) {
-    window.location.href = printUrl;
-    return true;
-  } else {
-    // Fallback para preview em navegadores desktop
-    const previewWindow = window.open("", "_blank");
-    if (previewWindow) {
-      previewWindow.document.write(htmlContent);
-      previewWindow.document.close();
-      setTimeout(() => {
-        previewWindow.print();
-      }, 250);
-      return true;
-    }
-    return false;
-  }
+  // Redireciona diretamente para impressão USB (Android)
+  // O ESC/POS USB Print Service reconhece automaticamente o esquema print://
+  window.location.href = printUrl;
+  return true;
 };
