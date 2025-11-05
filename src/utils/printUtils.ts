@@ -102,11 +102,14 @@ export const generateReceiptHTML = (order: Order): string => {
 
 export const printOrder = (order: Order, numCopies: number = 1) => {
   const htmlContent = generateReceiptHTML(order);
+  
+  // Codifica o HTML para URL, mas mantém as aspas simples conforme documentação
   const encodedHTML = encodeURIComponent(htmlContent);
-  const printUrl = `print://escpos.org/escpos/usb/print?srcTp=uri&srcObj=html&numCopies=${numCopies}&src=data:text/html,${encodedHTML}`;
+  
+  // Segue o padrão exato da documentação com aspas simples ao redor do data:text/html
+  const printUrl = `print://escpos.org/escpos/usb/print?srcTp=uri&srcObj=html&numCopies=${numCopies}&src='data:text/html,${encodedHTML}'`;
   
   // Redireciona diretamente para impressão USB (Android)
-  // O ESC/POS USB Print Service reconhece automaticamente o esquema print://
   window.location.href = printUrl;
   return true;
 };
