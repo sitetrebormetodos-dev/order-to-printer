@@ -1,94 +1,92 @@
-import { useState } from "react";
-import { OrderForm } from "@/components/OrderForm";
-import { OrderCard } from "@/components/OrderCard";
-import { Order, OrderItem } from "@/types/order";
-import { Printer, PackageCheck } from "lucide-react";
-import { toast } from "sonner";
+import { Home, Printer, UtensilsCrossed } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
-  const [orders, setOrders] = useState<Order[]>([]);
-
-  const handleAddOrder = (items: OrderItem[]) => {
-    const total = items.reduce((sum, item) => sum + item.quantity * item.price, 0);
-    const orderNumber = `${Date.now().toString().slice(-6)}`;
-    
-    const newOrder: Order = {
-      id: Date.now().toString(),
-      items,
-      total,
-      date: new Date(),
-      orderNumber,
-    };
-
-    setOrders([newOrder, ...orders]);
-    toast.success("Pedido criado com sucesso!");
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-card border-b shadow-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4">
+      <header className="bg-card border-b shadow-sm">
+        <div className="container mx-auto px-4 py-6">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-primary/10 rounded-lg">
-              <Printer className="h-8 w-8 text-primary" />
+              <Home className="h-8 w-8 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Sistema de Impressão ESC/POS</h1>
+              <h1 className="text-3xl font-bold">Sistema ESC/POS</h1>
               <p className="text-sm text-muted-foreground">
-                Teste de impressão via USB Print Service
+                Escolha sua área de acesso
               </p>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Form Section */}
-          <div>
-            <OrderForm onAddOrder={handleAddOrder} />
-            
-            {/* Info Card */}
-            <div className="mt-6 p-4 bg-info/10 border border-info/20 rounded-lg">
-              <h3 className="font-semibold mb-2 flex items-center gap-2">
-                <PackageCheck className="h-5 w-5" />
-                Como usar:
-              </h3>
-              <ul className="text-sm space-y-1 text-muted-foreground">
-                <li>• Adicione itens ao pedido com nome, quantidade e preço</li>
-                <li>• Clique em "Criar Pedido" para gerar o pedido</li>
-                <li>• Use o botão "Imprimir" para enviar para a impressora</li>
-                <li>• No Android: requer ESC/POS USB Print Service instalado</li>
-                <li>• Em outros dispositivos: abrirá preview para impressão</li>
+      <main className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Client Area */}
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/pedido")}>
+            <CardHeader>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-3 bg-primary/10 rounded-lg">
+                  <UtensilsCrossed className="h-8 w-8 text-primary" />
+                </div>
+              </div>
+              <CardTitle className="text-2xl">Área do Cliente</CardTitle>
+              <CardDescription>
+                Faça seu pedido diretamente pelo sistema
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2 text-sm text-muted-foreground mb-4">
+                <li>✓ Criar novo pedido</li>
+                <li>✓ Adicionar itens</li>
+                <li>✓ Enviar para cozinha</li>
               </ul>
-            </div>
-          </div>
+              <Button className="w-full" size="lg">
+                Fazer Pedido
+              </Button>
+            </CardContent>
+          </Card>
 
-          {/* Orders Section */}
-          <div>
-            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <PackageCheck className="h-6 w-6 text-primary" />
-              Pedidos Criados ({orders.length})
-            </h2>
-            
-            {orders.length === 0 ? (
-              <div className="text-center py-12 bg-muted/30 rounded-lg border-2 border-dashed">
-                <PackageCheck className="h-16 w-16 mx-auto text-muted-foreground/50 mb-4" />
-                <p className="text-muted-foreground">
-                  Nenhum pedido criado ainda.
-                  <br />
-                  Crie seu primeiro pedido!
-                </p>
+          {/* Admin Area */}
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/admin")}>
+            <CardHeader>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-3 bg-primary/10 rounded-lg">
+                  <Printer className="h-8 w-8 text-primary" />
+                </div>
               </div>
-            ) : (
-              <div className="space-y-4">
-                {orders.map((order) => (
-                  <OrderCard key={order.id} order={order} />
-                ))}
-              </div>
-            )}
-          </div>
+              <CardTitle className="text-2xl">Área Admin</CardTitle>
+              <CardDescription>
+                Gerencie e imprima os pedidos recebidos
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2 text-sm text-muted-foreground mb-4">
+                <li>✓ Ver pedidos em tempo real</li>
+                <li>✓ Imprimir comprovantes</li>
+                <li>✓ Gerenciar status</li>
+              </ul>
+              <Button className="w-full" size="lg" variant="secondary">
+                Acessar Painel
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Info Section */}
+        <div className="mt-12 max-w-2xl mx-auto p-6 bg-muted/30 rounded-lg">
+          <h3 className="font-semibold mb-3 text-lg">ℹ️ Informações do Sistema</h3>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            <li>• <strong>Cliente:</strong> Crie pedidos e envie automaticamente para o admin</li>
+            <li>• <strong>Admin:</strong> Receba pedidos em tempo real e imprima via ESC/POS</li>
+            <li>• <strong>Android:</strong> Requer ESC/POS USB Print Service instalado</li>
+            <li>• <strong>Outros dispositivos:</strong> Preview de impressão padrão</li>
+          </ul>
         </div>
       </main>
     </div>
