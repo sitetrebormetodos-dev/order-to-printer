@@ -1,10 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Package } from "lucide-react";
 import { OrderItem } from "@/types/order";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+interface Product {
+  id: string;
+  name: string;
+  description: string | null;
+  color: string | null;
+  size: string | null;
+  price: number;
+  category: string | null;
+  stock: number;
+}
 
 interface OrderFormProps {
   onAddOrder: (items: OrderItem[]) => void;
@@ -12,24 +26,64 @@ interface OrderFormProps {
 
 export const OrderForm = ({ onAddOrder }: OrderFormProps) => {
   const [items, setItems] = useState<OrderItem[]>([]);
-  const [itemName, setItemName] = useState("");
+  const [products, setProducts] = useState<Product[]>([]);
+  const [selectedProductId, setSelectedProductId] = useState("");
   const [itemQuantity, setItemQuantity] = useState("1");
-  const [itemPrice, setItemPrice] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("is_active", true)
+        .order("name");
+
+      if (error) throw error;
+      setProducts(data || []);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      toast.error("Erro ao carregar produtos");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const addItem = () => {
-    if (!itemName || !itemPrice) return;
+    if (!selectedProductId) {
+      toast.error("Selecione um produto");
+      return;
+    }
 
-    const newItem: OrderItem = {
-      id: Date.now().toString(),
-      name: itemName,
-      quantity: parseInt(itemQuantity) || 1,
-      price: parseFloat(itemPrice) || 0,
-    };
+    const product = products.find(p => p.id === selectedProductId);
+    if (!product) return;
 
-    setItems([...items, newItem]);
-    setItemName("");
+    const quantity = parseInt(itemQuantity) || 1;
+
+    // Check if product already in cart
+    const existingItem = items.find(item => item.id === product.id);
+    if (existingItem) {
+      setItems(items.map(item => 
+        item.id === product.id 
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
+      ));
+    } else {
+      const newItem: OrderItem = {
+        id: product.id,
+        name: `${product.name}${product.color ? ` (${product.color})` : ""}${product.size ? ` - ${product.size}` : ""}`,
+        quantity: quantity,
+        price: product.price,
+      };
+      setItems([...items, newItem]);
+    }
+
+    setSelectedProductId("");
     setItemQuantity("1");
-    setItemPrice("");
   };
 
   const removeItem = (id: string) => {
@@ -50,46 +104,62 @@ export const OrderForm = ({ onAddOrder }: OrderFormProps) => {
         <CardTitle className="text-2xl">Criar Novo Pedido</CardTitle>
       </CardHeader>
       <CardContent className="pt-6 space-y-6">
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="itemName">Nome do Item</Label>
-              <Input
-                id="itemName"
-                placeholder="Ex: Pizza Margherita"
-                value={itemName}
-                onChange={(e) => setItemName(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="itemQuantity">Quantidade</Label>
-              <Input
-                id="itemQuantity"
-                type="number"
-                min="1"
-                placeholder="1"
-                value={itemQuantity}
-                onChange={(e) => setItemQuantity(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="itemPrice">Preço (R$)</Label>
-              <Input
-                id="itemPrice"
-                type="number"
-                step="0.01"
-                min="0"
-                placeholder="0.00"
-                value={itemPrice}
-                onChange={(e) => setItemPrice(e.target.value)}
-              />
-            </div>
+        {loading ? (
+          <div className="text-center py-8 text-muted-foreground">
+            Carregando produtos...
           </div>
-          <Button onClick={addItem} className="w-full" size="lg">
-            <Plus className="mr-2 h-5 w-5" />
-            Adicionar Item
-          </Button>
-        </div>
+        ) : products.length === 0 ? (
+          <div className="text-center py-8">
+            <Package className="h-12 w-12 mx-auto text-muted-foreground/50 mb-2" />
+            <p className="text-muted-foreground">
+              Nenhum produto disponível no momento
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-2 md:col-span-2">
+                <Label htmlFor="product">Selecione o Produto</Label>
+                <Select value={selectedProductId} onValueChange={setSelectedProductId}>
+                  <SelectTrigger id="product">
+                    <SelectValue placeholder="Escolha um produto" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {products.map((product) => (
+                      <SelectItem key={product.id} value={product.id}>
+                        <div className="flex flex-col">
+                          <span className="font-medium">{product.name}</span>
+                          <span className="text-xs text-muted-foreground">
+                            {product.color && `Cor: ${product.color}`}
+                            {product.color && product.size && " • "}
+                            {product.size && `Tamanho: ${product.size}`}
+                            {(product.color || product.size) && " • "}
+                            R$ {product.price.toFixed(2)}
+                          </span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="itemQuantity">Quantidade</Label>
+                <Input
+                  id="itemQuantity"
+                  type="number"
+                  min="1"
+                  placeholder="1"
+                  value={itemQuantity}
+                  onChange={(e) => setItemQuantity(e.target.value)}
+                />
+              </div>
+            </div>
+            <Button onClick={addItem} className="w-full" size="lg" disabled={!selectedProductId}>
+              <Plus className="mr-2 h-5 w-5" />
+              Adicionar ao Pedido
+            </Button>
+          </div>
+        )}
 
         {items.length > 0 && (
           <div className="space-y-4">

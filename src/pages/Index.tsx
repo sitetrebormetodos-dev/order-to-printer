@@ -1,4 +1,4 @@
-import { Home, Printer, UtensilsCrossed } from "lucide-react";
+import { Home, Printer, UtensilsCrossed, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +26,7 @@ const Index = () => {
       </header>
 
       <main className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {/* Client Area */}
           <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/pedido")}>
             <CardHeader>
@@ -52,6 +52,31 @@ const Index = () => {
             </CardContent>
           </Card>
 
+          {/* Products Management */}
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/admin/produtos")}>
+            <CardHeader>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-3 bg-primary/10 rounded-lg">
+                  <Package className="h-8 w-8 text-primary" />
+                </div>
+              </div>
+              <CardTitle className="text-2xl">Produtos</CardTitle>
+              <CardDescription>
+                Cadastre produtos para os clientes
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2 text-sm text-muted-foreground mb-4">
+                <li>✓ Cadastrar produtos</li>
+                <li>✓ Definir preços e cores</li>
+                <li>✓ Gerenciar estoque</li>
+              </ul>
+              <Button className="w-full" size="lg" variant="secondary">
+                Gerenciar
+              </Button>
+            </CardContent>
+          </Card>
+
           {/* Admin Area */}
           <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/admin")}>
             <CardHeader>
@@ -60,7 +85,7 @@ const Index = () => {
                   <Printer className="h-8 w-8 text-primary" />
                 </div>
               </div>
-              <CardTitle className="text-2xl">Área Admin</CardTitle>
+              <CardTitle className="text-2xl">Pedidos</CardTitle>
               <CardDescription>
                 Gerencie e imprima os pedidos recebidos
               </CardDescription>
