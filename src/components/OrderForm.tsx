@@ -96,6 +96,32 @@ export const OrderForm = ({ onAddOrder }: OrderFormProps) => {
     setItems([]);
   };
 
+  const addTestOrder = () => {
+    if (products.length === 0) {
+      toast.error("Nenhum produto disponível");
+      return;
+    }
+    
+    // Add multiple items for testing
+    const testItems: OrderItem[] = [];
+    const numItems = Math.min(products.length, 8); // Add up to 8 items
+    
+    for (let i = 0; i < numItems; i++) {
+      const product = products[i];
+      const quantity = Math.floor(Math.random() * 3) + 1; // 1-3 items
+      
+      testItems.push({
+        id: product.id,
+        name: `${product.name}${product.color ? ` (${product.color})` : ""}${product.size ? ` - ${product.size}` : ""}`,
+        quantity: quantity,
+        price: product.price,
+      });
+    }
+    
+    setItems([...items, ...testItems]);
+    toast.success(`${numItems} itens adicionados para teste`);
+  };
+
   const total = items.reduce((sum, item) => sum + item.quantity * item.price, 0);
 
   return (
@@ -117,6 +143,17 @@ export const OrderForm = ({ onAddOrder }: OrderFormProps) => {
           </div>
         ) : (
           <div className="space-y-4">
+            <div className="flex justify-between items-center mb-2">
+              <h3 className="text-sm font-medium text-muted-foreground">Adicionar Produtos</h3>
+              <Button 
+                type="button"
+                variant="outline" 
+                size="sm"
+                onClick={addTestOrder}
+              >
+                + Pedido de Teste
+              </Button>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2 md:col-span-2">
                 <Label htmlFor="product">Selecione o Produto</Label>
