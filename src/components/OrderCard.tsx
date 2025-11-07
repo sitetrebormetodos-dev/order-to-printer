@@ -44,9 +44,9 @@ export const OrderCard = ({ order }: OrderCardProps) => {
       <CardContent className="pt-6 space-y-4">
         <div className="space-y-2">
           {order.items.map((item) => (
-            <div key={item.id} className="flex justify-between text-sm py-2 border-b">
-              <span className="font-medium">{item.name}</span>
-              <div className="flex gap-4 text-muted-foreground">
+            <div key={item.id} className="flex justify-between gap-4 text-sm py-2 border-b">
+              <span className="font-medium truncate flex-1 min-w-0">{item.name}</span>
+              <div className="flex gap-4 text-muted-foreground shrink-0">
                 <span>{item.quantity}x</span>
                 <span>R$ {item.price.toFixed(2)}</span>
                 <span className="font-semibold text-foreground">

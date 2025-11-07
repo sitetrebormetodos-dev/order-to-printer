@@ -22,9 +22,13 @@ export const generateReceiptHTML = (order: Order): string => {
         body { font-family: monospace; width: 280px; padding: 10px; }
         h1 { text-align: center; font-size: 18px; margin: 5px 0; }
         .center { text-align: center; margin: 10px 0; font-size: 11px; }
-        table { width: 100%; margin: 10px 0; border-collapse: collapse; }
-        th, td { padding: 4px 2px; font-size: 11px; }
+        table { width: 100%; margin: 10px 0; border-collapse: collapse; table-layout: fixed; }
+        th, td { padding: 4px 2px; font-size: 10px; word-wrap: break-word; overflow-wrap: break-word; }
         th { border-bottom: 1px solid black; }
+        th:nth-child(1), td:nth-child(1) { width: 45%; }
+        th:nth-child(2), td:nth-child(2) { width: 15%; text-align: center; }
+        th:nth-child(3), td:nth-child(3) { width: 20%; text-align: right; }
+        th:nth-child(4), td:nth-child(4) { width: 20%; text-align: right; }
         .total { margin-top: 10px; padding-top: 10px; border-top: 1px solid black; font-size: 14px; font-weight: bold; text-align: right; }
       </style>
     </head>

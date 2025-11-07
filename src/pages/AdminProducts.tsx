@@ -325,20 +325,20 @@ const AdminProducts = () => {
                   <Card key={product.id} className={!product.is_active ? "opacity-60" : ""}>
                     <CardContent className="p-4">
                       <div className="flex justify-between items-start">
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-lg">{product.name}</h3>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-lg truncate">{product.name}</h3>
                           {product.description && (
-                            <p className="text-sm text-muted-foreground">{product.description}</p>
+                            <p className="text-sm text-muted-foreground line-clamp-2">{product.description}</p>
                           )}
                           <div className="flex flex-wrap gap-2 mt-2 text-sm">
                             {product.color && (
-                              <span className="px-2 py-1 bg-muted rounded">Cor: {product.color}</span>
+                              <span className="px-2 py-1 bg-muted rounded truncate max-w-[150px]">Cor: {product.color}</span>
                             )}
                             {product.size && (
-                              <span className="px-2 py-1 bg-muted rounded">Tamanho: {product.size}</span>
+                              <span className="px-2 py-1 bg-muted rounded truncate max-w-[150px]">Tamanho: {product.size}</span>
                             )}
                             {product.category && (
-                              <span className="px-2 py-1 bg-muted rounded">{product.category}</span>
+                              <span className="px-2 py-1 bg-muted rounded truncate max-w-[150px]">{product.category}</span>
                             )}
                           </div>
                           <div className="flex items-center gap-4 mt-2">
