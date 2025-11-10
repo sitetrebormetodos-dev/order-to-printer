@@ -20,6 +20,11 @@ interface Product {
   category: string | null;
   stock: number;
   is_active: boolean;
+  base: string | null;
+  meio_a_meio: string | null;
+  frutas: string | null;
+  mix_ins: string | null;
+  toppings: string | null;
 }
 
 const AdminProducts = () => {
@@ -37,6 +42,11 @@ const AdminProducts = () => {
     category: "",
     stock: "0",
     is_active: true,
+    base: "",
+    meio_a_meio: "",
+    frutas: "",
+    mix_ins: "",
+    toppings: "",
   });
 
   const fetchProducts = async () => {
@@ -71,6 +81,11 @@ const AdminProducts = () => {
       category: "",
       stock: "0",
       is_active: true,
+      base: "",
+      meio_a_meio: "",
+      frutas: "",
+      mix_ins: "",
+      toppings: "",
     });
     setEditingId(null);
   };
@@ -94,6 +109,11 @@ const AdminProducts = () => {
         category: formData.category || null,
         stock: parseInt(formData.stock) || 0,
         is_active: formData.is_active,
+        base: formData.base || null,
+        meio_a_meio: formData.meio_a_meio || null,
+        frutas: formData.frutas || null,
+        mix_ins: formData.mix_ins || null,
+        toppings: formData.toppings || null,
       };
 
       if (editingId) {
@@ -132,6 +152,11 @@ const AdminProducts = () => {
       category: product.category || "",
       stock: product.stock.toString(),
       is_active: product.is_active,
+      base: product.base || "",
+      meio_a_meio: product.meio_a_meio || "",
+      frutas: product.frutas || "",
+      mix_ins: product.mix_ins || "",
+      toppings: product.toppings || "",
     });
     setEditingId(product.id);
   };
@@ -278,6 +303,65 @@ const AdminProducts = () => {
                     onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
                     placeholder="https://..."
                   />
+                </div>
+
+                <div className="border-t pt-4 mt-4">
+                  <h3 className="font-semibold mb-3 text-sm text-muted-foreground">Detalhes do Item (Opcional)</h3>
+                  
+                  <div className="space-y-3">
+                    <div>
+                      <Label htmlFor="base">Base</Label>
+                      <Input
+                        id="base"
+                        value={formData.base}
+                        onChange={(e) => setFormData({ ...formData, base: e.target.value })}
+                        placeholder="Ex: Cupuaçu, Açaí"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="meio_a_meio">Meio a Meio</Label>
+                      <Input
+                        id="meio_a_meio"
+                        value={formData.meio_a_meio}
+                        onChange={(e) => setFormData({ ...formData, meio_a_meio: e.target.value })}
+                        placeholder="Ex: Creme, Flocos"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="frutas">Frutas (F:)</Label>
+                      <Textarea
+                        id="frutas"
+                        value={formData.frutas}
+                        onChange={(e) => setFormData({ ...formData, frutas: e.target.value })}
+                        placeholder="Ex: Abacaxi, Banana, Manga, Chocolate"
+                        rows={2}
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="mix_ins">Mix-ins (M:)</Label>
+                      <Textarea
+                        id="mix_ins"
+                        value={formData.mix_ins}
+                        onChange={(e) => setFormData({ ...formData, mix_ins: e.target.value })}
+                        placeholder="Ex: Manga, Uva, Chocolate, Mel"
+                        rows={2}
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="toppings">Toppings (T:)</Label>
+                      <Textarea
+                        id="toppings"
+                        value={formData.toppings}
+                        onChange={(e) => setFormData({ ...formData, toppings: e.target.value })}
+                        placeholder="Ex: Manga, Melão, Morango, Uva"
+                        rows={2}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="flex items-center space-x-2">

@@ -52,45 +52,60 @@ export type Database = {
       }
       products: {
         Row: {
+          base: string | null
           category: string | null
           color: string | null
           created_at: string
           description: string | null
+          frutas: string | null
           id: string
           image_url: string | null
           is_active: boolean | null
+          meio_a_meio: string | null
+          mix_ins: string | null
           name: string
           price: number
           size: string | null
           stock: number | null
+          toppings: string | null
           updated_at: string
         }
         Insert: {
+          base?: string | null
           category?: string | null
           color?: string | null
           created_at?: string
           description?: string | null
+          frutas?: string | null
           id?: string
           image_url?: string | null
           is_active?: boolean | null
+          meio_a_meio?: string | null
+          mix_ins?: string | null
           name: string
           price: number
           size?: string | null
           stock?: number | null
+          toppings?: string | null
           updated_at?: string
         }
         Update: {
+          base?: string | null
           category?: string | null
           color?: string | null
           created_at?: string
           description?: string | null
+          frutas?: string | null
           id?: string
           image_url?: string | null
           is_active?: boolean | null
+          meio_a_meio?: string | null
+          mix_ins?: string | null
           name?: string
           price?: number
           size?: string | null
           stock?: number | null
+          toppings?: string | null
           updated_at?: string
         }
         Relationships: []

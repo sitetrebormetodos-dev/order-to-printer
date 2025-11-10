@@ -3,6 +3,12 @@ export interface OrderItem {
   name: string;
   quantity: number;
   price: number;
+  size?: string;
+  base?: string;
+  meioAMeio?: string;
+  frutas?: string;
+  mixIns?: string;
+  toppings?: string;
 }
 
 export interface Order {

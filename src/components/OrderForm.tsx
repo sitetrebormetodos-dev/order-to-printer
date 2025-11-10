@@ -18,6 +18,11 @@ interface Product {
   price: number;
   category: string | null;
   stock: number;
+  base: string | null;
+  meio_a_meio: string | null;
+  frutas: string | null;
+  mix_ins: string | null;
+  toppings: string | null;
 }
 
 interface OrderFormProps {
@@ -75,9 +80,15 @@ export const OrderForm = ({ onAddOrder }: OrderFormProps) => {
     } else {
       const newItem: OrderItem = {
         id: product.id,
-        name: `${product.name}${product.color ? ` (${product.color})` : ""}${product.size ? ` - ${product.size}` : ""}`,
+        name: product.name,
         quantity: quantity,
         price: product.price,
+        size: product.size || undefined,
+        base: product.base || undefined,
+        meioAMeio: product.meio_a_meio || undefined,
+        frutas: product.frutas || undefined,
+        mixIns: product.mix_ins || undefined,
+        toppings: product.toppings || undefined,
       };
       setItems([...items, newItem]);
     }
@@ -112,9 +123,15 @@ export const OrderForm = ({ onAddOrder }: OrderFormProps) => {
       
       testItems.push({
         id: product.id,
-        name: `${product.name}${product.color ? ` (${product.color})` : ""}${product.size ? ` - ${product.size}` : ""}`,
+        name: product.name,
         quantity: quantity,
         price: product.price,
+        size: product.size || undefined,
+        base: product.base || undefined,
+        meioAMeio: product.meio_a_meio || undefined,
+        frutas: product.frutas || undefined,
+        mixIns: product.mix_ins || undefined,
+        toppings: product.toppings || undefined,
       });
     }
     
