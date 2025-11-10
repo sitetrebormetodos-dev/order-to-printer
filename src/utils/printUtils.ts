@@ -8,7 +8,7 @@ export const generateReceiptHTML = (order: Order): string => {
           <td colspan="2" style="font-weight: bold; padding-top: 8px;">Item ${index + 1} - R$ ${item.price.toFixed(2)}</td>
         </tr>`;
       
-      if (item.size) {
+      if (item.size && item.size.trim()) {
         rows += `
         <tr>
           <td style="padding-left: 10px;">Tamanho:</td>
@@ -16,7 +16,7 @@ export const generateReceiptHTML = (order: Order): string => {
         </tr>`;
       }
       
-      if (item.base) {
+      if (item.base && item.base.trim()) {
         rows += `
         <tr>
           <td style="padding-left: 10px;">Base:</td>
@@ -24,7 +24,7 @@ export const generateReceiptHTML = (order: Order): string => {
         </tr>`;
       }
       
-      if (item.meioAMeio) {
+      if (item.meioAMeio && item.meioAMeio.trim()) {
         rows += `
         <tr>
           <td style="padding-left: 10px;">Meio a Meio:</td>
@@ -32,7 +32,7 @@ export const generateReceiptHTML = (order: Order): string => {
         </tr>`;
       }
       
-      if (item.frutas) {
+      if (item.frutas && item.frutas.trim()) {
         rows += `
         <tr>
           <td style="padding-left: 10px;">F:</td>
@@ -40,7 +40,7 @@ export const generateReceiptHTML = (order: Order): string => {
         </tr>`;
       }
       
-      if (item.mixIns) {
+      if (item.mixIns && item.mixIns.trim()) {
         rows += `
         <tr>
           <td style="padding-left: 10px;">M:</td>
@@ -48,7 +48,7 @@ export const generateReceiptHTML = (order: Order): string => {
         </tr>`;
       }
       
-      if (item.toppings) {
+      if (item.toppings && item.toppings.trim()) {
         rows += `
         <tr>
           <td style="padding-left: 10px;">T:</td>
