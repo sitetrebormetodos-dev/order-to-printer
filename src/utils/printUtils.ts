@@ -27,7 +27,7 @@ export const generateReceiptHTML = (order: Order): string => {
       if (item.meioAMeio) {
         rows += `
         <tr>
-          <td style="padding-left: 10px;">🍦 Meio a Meio:</td>
+          <td style="padding-left: 10px;">Meio a Meio:</td>
           <td style="text-align: right;">${item.meioAMeio}</td>
         </tr>`;
       }
@@ -80,7 +80,7 @@ export const generateReceiptHTML = (order: Order): string => {
         <div>Pedido: ${order.orderNumber}</div>
         <div>${new Date(order.date).toLocaleDateString("pt-BR")} ${new Date(order.date).toLocaleTimeString("pt-BR")}</div>
       </div>
-      <div class="cart-info">🛒 Carrinho com ${order.items.length} ${order.items.length === 1 ? 'item' : 'itens'}</div>
+      <div class="cart-info">Carrinho com ${order.items.length} ${order.items.length === 1 ? 'item' : 'itens'}</div>
       <table>
         ${itemsHTML}
       </table>

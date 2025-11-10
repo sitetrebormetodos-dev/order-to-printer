@@ -66,7 +66,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                   )}
                   {item.meioAMeio && (
                     <div className="flex justify-between">
-                      <span className="font-medium">🍦 Meio a Meio:</span>
+                      <span className="font-medium">Meio a Meio:</span>
                       <span className="text-muted-foreground">{item.meioAMeio}</span>
                     </div>
                   )}

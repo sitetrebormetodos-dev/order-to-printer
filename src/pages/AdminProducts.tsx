@@ -330,34 +330,34 @@ const AdminProducts = () => {
                     </div>
 
                     <div>
-                      <Label htmlFor="frutas">Frutas (F:)</Label>
+                      <Label htmlFor="frutas">F: Fundo</Label>
                       <Textarea
                         id="frutas"
                         value={formData.frutas}
                         onChange={(e) => setFormData({ ...formData, frutas: e.target.value })}
-                        placeholder="Ex: Abacaxi, Banana, Manga, Chocolate"
+                        placeholder="Ex: Abacaxi, Banana, Manga, Chocolate, Doce de Leite"
                         rows={2}
                       />
                     </div>
 
                     <div>
-                      <Label htmlFor="mix_ins">Mix-ins (M:)</Label>
+                      <Label htmlFor="mix_ins">M: Meio</Label>
                       <Textarea
                         id="mix_ins"
                         value={formData.mix_ins}
                         onChange={(e) => setFormData({ ...formData, mix_ins: e.target.value })}
-                        placeholder="Ex: Manga, Uva, Chocolate, Mel"
+                        placeholder="Ex: Manga, Uva, Chocolate, Mel, Sucrilhos, Mel"
                         rows={2}
                       />
                     </div>
 
                     <div>
-                      <Label htmlFor="toppings">Toppings (T:)</Label>
+                      <Label htmlFor="toppings">T: Topo</Label>
                       <Textarea
                         id="toppings"
                         value={formData.toppings}
                         onChange={(e) => setFormData({ ...formData, toppings: e.target.value })}
-                        placeholder="Ex: Manga, Melão, Morango, Uva"
+                        placeholder="Ex: Manga, Melão, Morango, Uva, Sucrilhos, Mel"
                         rows={2}
                       />
                     </div>
